@@ -7,6 +7,8 @@
 //
 
 import SwiftUI
+import Firebase
+import FirebaseFirestore
 
 struct ContentView: View {
     @State var score = 0
@@ -17,119 +19,130 @@ struct ContentView: View {
     @State var colorList = ["Red", "Orange", "Yellow", "Green", "Blue", "Purple", "Pink", "Black"]
     @State var colorString = "green"
     @State var buttonDisabled = false
-    var body: some View {
-        VStack {
-           Spacer()
-            Text("Welcome to the Color Game!").font(.system(size: 25, weight: .bold, design: .rounded))
-            Spacer()
-            Text("Score: \(score)"  ).font(.system(size: 40, weight: .light, design: .rounded)).foregroundColor(Color.red)
-           
-            Text("Time:  \(timeLeft)").font(.system(size: 40, weight: .light, design: .rounded)).foregroundColor(Color.red)
-            
-        Spacer()
-            
-            Button(action: {self.startGame()}) {
-                Text(text).font(.system(size: 70, weight: .bold, design: .rounded)).foregroundColor(color)
-                           }
-            Spacer()
-            
-           
-           
-            
-            VStack (spacing: 20){
-                
-            HStack (spacing: 20){
+    @State var player = "Tom"
     
-                Button(action: {self.checkButtonPress(colorButtonPress: "Red")}) {
-                    Text("Red")
-                        .foregroundColor(Color.white)
-                        
-                } .padding()
-                    .frame(maxWidth: .infinity)
-                    .background(Color.red)
-                .cornerRadius(20)
-                    .disabled(buttonDisabled)
-                
-                Button(action: {self.checkButtonPress(colorButtonPress: "Blue")}) {
-                    Text("Blue")
-                        .foregroundColor(Color.white)
-                }  .padding()
-                        .frame(maxWidth: .infinity)
+    var db = Firestore.firestore()
+    var body: some View {
+        NavigationView {
+                VStack {
+                    NavigationLink (destination: InstructionsView()){
+                        Text("Instructions").font(.system(size: 20, weight: .bold, design: .rounded))
+                        Image(systemName: "info.circle").font(.system(size: 20))
+                        }.foregroundColor(Color.white)
+                        .padding()
                         .background(Color.blue)
                         .cornerRadius(20)
-                    .disabled(buttonDisabled)
+                    Spacer()
+                    Text("Score: \(score)"  ).font(.system(size: 40, weight: .light, design: .rounded)).foregroundColor(Color.red)
+                   
+                    Text("Time:  \(timeLeft)").font(.system(size: 40, weight: .light, design: .rounded)).foregroundColor(Color.red)
+                    
+                Spacer()
+                    
+                    Button(action: {self.startGame()}) {
+                        Text(text).font(.system(size: 70, weight: .bold, design: .rounded)).foregroundColor(color)
+                                   }
+                    Spacer()
+                    
+                   
+                   
+                    
+                    VStack (spacing: 20){
                         
-               
-            }
-                
-            HStack (spacing: 20){
-                
-                Button(action: {self.checkButtonPress(colorButtonPress: "Orange")}) {
-                Text("Orange")
-                .foregroundColor(Color.white)}
-                .padding()
-                .frame(maxWidth: .infinity)
-                    .background(Color.orange)
-                    .cornerRadius(20)
-                    .disabled(buttonDisabled)
-                Button(action: {self.checkButtonPress(colorButtonPress: "Purple")}) {
-                    Text("Purple")
-                .foregroundColor(Color.white)
-                    }
-                .padding()
-                .frame(maxWidth: .infinity)
-                .background(Color.purple)
-                .cornerRadius(20)
-                .disabled(buttonDisabled)
-                
-            }
-                
-            HStack (spacing: 20){
-                
-                Button(action: {self.checkButtonPress(colorButtonPress: "Yellow")}) {
-                Text("Yellow")
-                .foregroundColor(Color.white)}
-                .padding()
-                .frame(maxWidth: .infinity)
-                    .background(Color.yellow)
-                    .cornerRadius(20)
-                    .disabled(buttonDisabled)
-                
-                Button(action: {self.checkButtonPress(colorButtonPress: "Pink")}) {
-                    Text("Pink")
-                .foregroundColor(Color.white)
-                    }
-                .padding()
-                .frame(maxWidth: .infinity)
-                .background(Color.pink)
-                .cornerRadius(20)
-                .disabled(buttonDisabled)
-                
-            }
-                
-            HStack (spacing: 20){
-                
-                Button(action: {self.checkButtonPress(colorButtonPress: "Green")}) {
-                Text("Green")
-                .foregroundColor(Color.white)}
-                .padding()
-                .frame(maxWidth: .infinity)
-                    .background(Color.green)
-                    .cornerRadius(20)
-                Button(action: {self.checkButtonPress(colorButtonPress: "Black")}) {
-                    Text("Black")
-                .foregroundColor(Color.white)
-                    }
-                .padding()
-                .frame(maxWidth: .infinity)
-                .background(Color.black)
-                .cornerRadius(20)
-                
-                }
-                
-            }.padding(.horizontal, 20)
+                    HStack (spacing: 20){
             
+                        Button(action: {self.checkButtonPress(colorButtonPress: "Red")}) {
+                            Text("Red")
+                                .foregroundColor(Color.white)
+                                
+                        } .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(Color.red)
+                        .cornerRadius(20)
+                            .disabled(buttonDisabled)
+                        
+                        Button(action: {self.checkButtonPress(colorButtonPress: "Blue")}) {
+                            Text("Blue")
+                                .foregroundColor(Color.white)
+                        }  .padding()
+                                .frame(maxWidth: .infinity)
+                                .background(Color.blue)
+                                .cornerRadius(20)
+                            .disabled(buttonDisabled)
+                                
+                       
+                    }
+                        
+                    HStack (spacing: 20){
+                        
+                        Button(action: {self.checkButtonPress(colorButtonPress: "Orange")}) {
+                        Text("Orange")
+                        .foregroundColor(Color.white)}
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                            .background(Color.orange)
+                            .cornerRadius(20)
+                            .disabled(buttonDisabled)
+                        Button(action: {self.checkButtonPress(colorButtonPress: "Purple")}) {
+                            Text("Purple")
+                        .foregroundColor(Color.white)
+                            }
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(Color.purple)
+                        .cornerRadius(20)
+                        .disabled(buttonDisabled)
+                        
+                    }
+                        
+                    HStack (spacing: 20){
+                        
+                        Button(action: {self.checkButtonPress(colorButtonPress: "Yellow")}) {
+                        Text("Yellow")
+                        .foregroundColor(Color.white)}
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                            .background(Color.yellow)
+                            .cornerRadius(20)
+                            .disabled(buttonDisabled)
+                        
+                        Button(action: {self.checkButtonPress(colorButtonPress: "Pink")}) {
+                            Text("Pink")
+                        .foregroundColor(Color.white)
+                            }
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(Color.pink)
+                        .cornerRadius(20)
+                        .disabled(buttonDisabled)
+                        
+                    }
+                        
+                    HStack (spacing: 20){
+                        
+                        Button(action: {self.checkButtonPress(colorButtonPress: "Green")}) {
+                        Text("Green")
+                        .foregroundColor(Color.white)}
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                            .background(Color.green)
+                            .cornerRadius(20)
+                        Button(action: {self.checkButtonPress(colorButtonPress: "Black")}) {
+                            Text("Black")
+                        .foregroundColor(Color.white)
+                            }
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(Color.black)
+                        .cornerRadius(20)
+                        
+                        }
+                        
+                    }.padding(.horizontal, 20)
+                        .navigationBarTitle("Back", displayMode: .inline)
+                }
         }
+
       
     }
     func startGame() {
@@ -154,8 +167,38 @@ struct ContentView: View {
               } else {
                 text = "Start Over"
                 buttonDisabled = true
+                self.checkScoreAndUpload()
               }
-          }
+        }
+    func checkScoreAndUpload() {
+        let docRef = db.collection("leaderboard").document(player)
+        docRef.getDocument { (document, error) in if let document = document, document.exists {
+            if var highScore = document.get("score") as? Int {
+                print("userhighscore", highScore)
+                if self.score > highScore {
+                    self.uploadToFirebase()
+                    }
+                }
+        } else {
+            print("Document does not exist.")
+            self.uploadToFirebase()
+            }
+        }
+    }
+    
+    func uploadToFirebase() {
+        db.collection("leaderboard").document(player).setData([
+            "name" : player,
+            "score" : score
+        ]) { err in
+            if let err = err {
+                print("Error writing the document")
+                print(err)
+            } else {
+                print("Document successfully written! It worked!")
+            }
+        }
+    }
     func putInNewColor() {
         color = dictionaryColors.keys.randomElement()!
         colorString = dictionaryColors[color]!
