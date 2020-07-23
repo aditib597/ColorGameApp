@@ -19,7 +19,7 @@ struct ContentView: View {
     @State var colorList = ["Red", "Orange", "Yellow", "Green", "Blue", "Purple", "Gray", "Black"]
     @State var colorString = "green"
     @State var buttonDisabled = false
-    @State var player = "Tom"
+    @State var player = "Cameron"
     
     var db = Firestore.firestore()
     var body: some View {
@@ -46,7 +46,7 @@ struct ContentView: View {
                 Spacer()
                     
                     Button(action: {self.startGame()}) {
-                        Text(text).font(.system(size: 70, weight: .bold, design: .rounded)).foregroundColor(.pink)
+                        Text(text).font(.system(size: 70, weight: .bold, design: .rounded)).foregroundColor(color)
                                    }
                     Spacer()
                     
