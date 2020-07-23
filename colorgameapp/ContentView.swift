@@ -15,8 +15,8 @@ struct ContentView: View {
     @State var timeLeft = 15
     @State var text = "Start"
     @State var color = Color.green
-    @State var dictionaryColors = [Color.red : "Red", Color.orange: "Orange", Color.yellow : "Yellow", Color.green : "Green", Color.blue : "Blue", Color.purple : "Purple", Color.pink : "Pink", Color.black : "Black"]
-    @State var colorList = ["Red", "Orange", "Yellow", "Green", "Blue", "Purple", "Pink", "Black"]
+    @State var dictionaryColors = [Color.red : "Red", Color.orange: "Orange", Color.yellow : "Yellow", Color.green : "Green", Color.blue : "Blue", Color.purple : "Purple", Color.gray : "Gray", Color.black : "Black"]
+    @State var colorList = ["Red", "Orange", "Yellow", "Green", "Blue", "Purple", "Gray", "Black"]
     @State var colorString = "green"
     @State var buttonDisabled = false
     @State var player = "Tom"
@@ -25,6 +25,7 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
                 VStack {
+                    HStack {
                     NavigationLink (destination: InstructionsView()){
                         Text("Instructions").font(.system(size: 20, weight: .bold, design: .rounded))
                         Image(systemName: "info.circle").font(.system(size: 20))
@@ -32,6 +33,11 @@ struct ContentView: View {
                         .padding()
                         .background(Color.blue)
                         .cornerRadius(20)
+                        
+                        NavigationLink (destination: leaderboardView()){
+                            Text("Leaderboard").font(.system(size: 20, weight: .bold, design: .rounded))
+                            Image(systemName: "info.circle").font(.system(size: 20))}.foregroundColor(Color.white).padding().background(Color.blue).cornerRadius(20)
+                    }//Hstack
                     Spacer()
                     Text("Score: \(score)"  ).font(.system(size: 40, weight: .light, design: .rounded)).foregroundColor(Color.red)
                    
@@ -40,7 +46,7 @@ struct ContentView: View {
                 Spacer()
                     
                     Button(action: {self.startGame()}) {
-                        Text(text).font(.system(size: 70, weight: .bold, design: .rounded)).foregroundColor(color)
+                        Text(text).font(.system(size: 70, weight: .bold, design: .rounded)).foregroundColor(.pink)
                                    }
                     Spacer()
                     
@@ -71,7 +77,7 @@ struct ContentView: View {
                             .disabled(buttonDisabled)
                                 
                        
-                    }
+                    }//Hstack1
                         
                     HStack (spacing: 20){
                         
@@ -93,7 +99,7 @@ struct ContentView: View {
                         .cornerRadius(20)
                         .disabled(buttonDisabled)
                         
-                    }
+                    }//hstack2
                         
                     HStack (spacing: 20){
                         
@@ -106,13 +112,13 @@ struct ContentView: View {
                             .cornerRadius(20)
                             .disabled(buttonDisabled)
                         
-                        Button(action: {self.checkButtonPress(colorButtonPress: "Pink")}) {
-                            Text("Pink")
+                        Button(action: {self.checkButtonPress(colorButtonPress: "Gray")}) {
+                            Text("Gray")
                         .foregroundColor(Color.white)
                             }
                         .padding()
                         .frame(maxWidth: .infinity)
-                        .background(Color.pink)
+                        .background(Color.gray)
                         .cornerRadius(20)
                         .disabled(buttonDisabled)
                         
@@ -139,7 +145,7 @@ struct ContentView: View {
                         }
                         
                     }.padding(.horizontal, 20)
-                        .navigationBarTitle("Back", displayMode: .inline)
+                        .navigationBarTitle("Welcome to the Color Game!", displayMode: .inline)
                 }
         }
 
